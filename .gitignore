@@ -16,6 +16,8 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+.DS_Store
 
 ERD-rel.png
+ERD-rel-night.png
 ERD.png

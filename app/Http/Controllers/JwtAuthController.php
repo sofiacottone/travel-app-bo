@@ -6,31 +6,39 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class JwtAuthController extends Controller
 {
-    // Registrazione di un nuovo utente
+    // Register a new user
     public function register(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
         $user = User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
 
         $token = JWTAuth::fromUser($user);
 
-        return response()->json(['token' => $token], 201);
+        return response()->json([
+            'success' => true,
+            'token' => $token
+        ], 201);
     }
 
-    // Login utente
+    // Login user and return a token
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -39,19 +47,29 @@ class JwtAuthController extends Controller
             return response()->json(['error' => 'Invalid credentials'], 401);
         }
 
-        return response()->json(['token' => $token]);
+        return response()->json([
+            'success' => true,
+            'token' => $token
+        ]);
     }
 
-    // Logout
+    // Logout user by invalidating the token
     public function logout()
     {
         JWTAuth::invalidate(JWTAuth::parseToken());
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully logged out'
+        ]);
     }
 
-    // Recupero utente autenticato
+    // Get authenticated user
     public function authUser()
     {
-        return response()->json(JWTAuth::parseToken()->authenticate());
+        $user = JWTAuth::parseToken()->authenticate();
+        return response()->json([
+            'success' => true,
+            'user' => $user
+        ]);
     }
 }
