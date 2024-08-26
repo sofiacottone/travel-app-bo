@@ -23,9 +23,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/login', [JwtAuthController::class, 'login']);
+Route::post('/register', [JwtAuthController::class, 'register']);
 Route::middleware('auth:api')->group(function () {
-    Route::post('register', [JwtAuthController::class, 'register']);
-    Route::post('login', [JwtAuthController::class, 'login']);
     Route::post('logout', [JwtAuthController::class, 'logout']);
     Route::get('authUser', [JwtAuthController::class, 'authUser']);
 });

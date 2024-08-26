@@ -296,6 +296,17 @@ return [
 
         'storage' => Tymon\JWTAuth\Providers\Storage\Illuminate::class,
 
+        /*
+        |--------------------------------------------------------------------------
+        | User Provider
+        |--------------------------------------------------------------------------
+        |
+        | Specify the model of the user.
+        |
+        */
+
+        'user' => App\Models\User::class,
+
     ],
 
 ];
