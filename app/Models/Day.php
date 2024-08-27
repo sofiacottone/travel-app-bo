@@ -9,6 +9,11 @@ class Day extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'notes',
+        'date',
+    ];
+
     /**
      * Relationship with Trip.
      */

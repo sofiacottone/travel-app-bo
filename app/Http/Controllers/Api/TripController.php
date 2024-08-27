@@ -41,7 +41,7 @@ class TripController extends Controller
             'title' => 'required|string|max:255',
             'location' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'start_date' => 'required|date',
+            'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
         ]);
 

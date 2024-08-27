@@ -9,6 +9,14 @@ class Trip extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'location',
+        'description',
+        'start_date',
+        'end_date',
+    ];
+
     /**
      * Relationship with User.
      */

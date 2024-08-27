@@ -9,6 +9,12 @@ class Photo extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'url',
+        'description',
+        'date',
+    ];
+
     /**
      * Relationship with Place.
      */

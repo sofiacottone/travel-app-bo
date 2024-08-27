@@ -9,6 +9,15 @@ class Place extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'latitude',
+        'longitude',
+        'is_visited',
+        'rating',
+    ];
+
     /**
      * Relationship with Day.
      */
